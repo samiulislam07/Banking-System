@@ -19,7 +19,8 @@ void depositMoney(char acc[10], cust *p, double amount)
         p = p+i;
         if(!strcmp(acc, p->accNo))
         {
-            p->balance= amount;
+            p->balance += amount;
+            break;
         }
     }
     
@@ -55,7 +56,7 @@ void printCustomers(cust *p)
     {
         p = p+i;
         
-        printf("Name: %s\nAccount No: %s\nMobile no: %s\nBalance: %lf\n\n", p->name, p->accNo,p->mobileNo, p->balance);
+        printf("Name: %s, Account No: %s, Mobile no: %s, Balance: %lf\n\n", p->name, p->accNo,p->mobileNo, p->balance);
         
     }
 }
@@ -75,9 +76,53 @@ void sumBalance(cust *p)
     printf("Sum of all balances: %lf\n\n\n", sum);
 }
 
+void sortCustomers(cust *p)
+{
+    int flag;
+    cust temp; cust *ptr = p;
+    for(int i=0; i<numCustomers-1; i++)
+    {
+        ptr = ptr+i;
+        flag=0;
+        for(int j=0; j<numCustomers-1-i; j++)
+        {
+            if(ptr->balance < (ptr+1)->balance)
+            {
+                temp = *ptr;
+                *ptr = *(ptr+1);
+                *(ptr+1) = temp;
+                flag=1;
+            }
+            if(ptr->balance == (ptr+1)->balance)
+            {
+                if(ptr->accNo < (ptr+1)->accNo)
+                {
+                    temp = *ptr;
+                    *ptr = *(ptr+1);
+                    *(ptr+1) = temp;
+                    flag=1;
+                }
+            }
+        }
+        if(flag==0) break;
+    }
+
+    
+
+    for(int i=0; i<numCustomers; i++)
+    {
+        p = p+i;
+        
+        printf("Name: %s\nAccount No: %s\nMobile no: %s\nBalance: %lf\n\n", p->name, p->accNo,p->mobileNo, p->balance);
+        
+    }
+
+}
+
 void main()
 {
     
+    printf("Enter number of customers: ");
     scanf("%d", &numCustomers);
 
     if(numCustomers<=0 || numCustomers>100)
@@ -114,6 +159,7 @@ void main()
         scanf("%d", &option);
         if(option==0)
         {
+            free(ptr);
             break;
         }
 
@@ -138,6 +184,7 @@ void main()
         break;
 
         case 3:
+        sortCustomers(ptr);
 
         break;
 
