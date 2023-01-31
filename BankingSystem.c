@@ -56,12 +56,10 @@ void main()
 
     ptr = ptr-(numCustomers-1);
 
-    int option;
+    int option; char acc[10];
     while(1)
     {
-        printf("Please select an option-\nChoose 1 to deposit money.\nChoose 2 to withdraw money.\nChoose 3 to sort all customers using their salary.
-        \nChoose 4 to search customers by using their mobileNo.\nChoose 5 to print all the customers.\nChoose 6 to print the sum Of all customer balances.
-        \nChoose 0 to exit.\nEnter you option: ");
+        printf("Please select an option- /nChoose 1 to deposit money. /nChoose 2 to withdraw money. /nChoose 3 to sort all customers using their salary. /nChoose 4 to search customers by using their mobileNo. /nChoose 5 to print all the customers. /nChoose 6 to print the sum Of all customer balances. /nChoose 0 to exit.  /nEnter you option: ");
 
         scanf("%d", &option);
         if(option==0)
@@ -71,7 +69,7 @@ void main()
 
         switch (option)
         {
-        case 1: char acc[10];
+        case 1: 
         printf("Enter account number: ");
         scanf("%s", acc);
         double amount;
