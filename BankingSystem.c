@@ -25,6 +25,18 @@ void depositMoney(char acc[10], cust *p, double amount)
     
 }
 
+void withdrawMoney(char acc[10], cust *p, double amount)
+{
+    for(int i=0; i<numCustomers; i++)
+    {
+        p = p+i;
+        if(!strcmp(acc, p->accNo))
+        {
+            p->balance= p->balance - amount;
+        }
+    }
+}
+
 void main()
 {
     
@@ -56,7 +68,7 @@ void main()
 
     ptr = ptr-(numCustomers-1);
 
-    int option; char acc[10];
+    int option; char acc[10]; double amount;
     while(1)
     {
         printf("Please select an option- \nChoose 1 to deposit money. \nChoose 2 to withdraw money. \nChoose 3 to sort all customers using their salary. \nChoose 4 to search customers by using their mobileNo. \nChoose 5 to print all the customers. \nChoose 6 to print the sum Of all customer balances. \nChoose 0 to exit.  \nEnter you option: ");
@@ -72,7 +84,6 @@ void main()
         case 1: 
         printf("Enter account number: ");
         scanf("%s", acc);
-        double amount;
         printf("Enter the balance: ");
         scanf("%lf", &amount);
         depositMoney(acc, ptr, amount);
@@ -80,6 +91,11 @@ void main()
             break;
 
         case 2: 
+        printf("Enter account number: ");
+        scanf("%s", acc);
+        printf("Enter the amount to be withdrawn: ");
+        scanf("%lf", &amount);
+        withdrawMoney(acc, ptr, amount);
         
         default:
             break;
