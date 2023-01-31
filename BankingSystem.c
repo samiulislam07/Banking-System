@@ -60,6 +60,21 @@ void printCustomers(cust *p)
     }
 }
 
+void sumBalance(cust *p)
+{
+    double sum=0;
+    
+    for(int i=0; i<numCustomers; i++)
+    {
+        p = p+i;
+        
+        sum += p->balance;
+        
+    }
+
+    printf("Sum of all balances: %lf\n\n\n", sum);
+}
+
 void main()
 {
     
@@ -143,6 +158,7 @@ void main()
 
         
         case 6:
+        sumBalance(ptr);
 
         break;
         
