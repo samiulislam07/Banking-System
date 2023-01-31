@@ -49,6 +49,17 @@ void searchCustomer(char mbl[11], cust *p)
     }
 }
 
+void printCustomers(cust *p)
+{
+    for(int i=0; i<numCustomers; i++)
+    {
+        p = p+i;
+        
+        printf("Name: %s\nAccount No: %s\nMobile no: %s\nBalance: %lf\n\n", p->name, p->accNo,p->mobileNo, p->balance);
+        
+    }
+}
+
 void main()
 {
     
@@ -125,6 +136,8 @@ void main()
 
         
         case 5:
+        printCustomers(ptr);
+        
 
         break;
 
