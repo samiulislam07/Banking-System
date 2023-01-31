@@ -93,7 +93,7 @@ void sortCustomers(cust *p)
                 *(ptr+1) = temp;
                 flag=1;
             }
-            if(ptr->balance == (ptr+1)->balance)
+            else if(ptr->balance == (ptr+1)->balance)
             {
                 if(ptr->accNo < (ptr+1)->accNo)
                 {
