@@ -11,95 +11,94 @@ typedef struct customer
 } cust;
 
 int numCustomers;
+cust *ptr;
 
-void depositMoney(char acc[10], cust *p, double amount)
+void depositMoney(char acc[10], double amount)
 {
     for(int i=0; i<numCustomers; i++)
     {
-        p = p+i;
-        if(!strcmp(acc, p->accNo))
+        if(strcmp(acc, (ptr+i)->accNo)==0)
         {
-            p->balance += amount;
+            (ptr+i)->balance += amount;
             break;
         }
     }
-    
+
 }
 
-void withdrawMoney(char acc[10], cust *p, double amount)
+void withdrawMoney(char acc[10], double amount)
 {
     for(int i=0; i<numCustomers; i++)
     {
-        p = p+i;
-        if(!strcmp(acc, p->accNo))
+        if(strcmp(acc, (ptr+i)->accNo)==0)
         {
-            p->balance= p->balance - amount;
+            (ptr+i)->balance= (ptr+i)->balance - amount;
+            break;
         }
     }
 }
 
-void searchCustomer(char mbl[11], cust *p)
+void searchCustomer(char mbl[11])
 {
     for(int i=0; i<numCustomers; i++)
     {
-        p = p+i;
-        if(!strcmp(mbl, p->mobileNo))
+        if(strcmp(mbl, (ptr+i)->mobileNo)==0)
         {
-            printf("Name: %s\nAccount No: %s\n Balance: %lf\n\n", p->name, p->accNo, p->balance);
+            printf("\n\nName: %s\nAccount No: %s\n Balance: %lf\n\n", (ptr+i)->name, (ptr+i)->accNo, (ptr+i)->balance);
+            break;
         }
     }
 }
 
-void printCustomers(cust *p)
+void printCustomers()
 {
     for(int i=0; i<numCustomers; i++)
     {
-        p = p+i;
-        
-        printf("Name: %s, Account No: %s, Mobile no: %s, Balance: %lf\n\n", p->name, p->accNo,p->mobileNo, p->balance);
-        
+        printf("Name: ");
+        puts((ptr+i)->name);
+        printf("\tAccount No: ");
+        puts((ptr+i)->accNo);
+        printf("\tMobile No: ");
+        puts((ptr+i)->mobileNo);
+        printf("\tBalance: %lf\n\n", (ptr+i)->balance);
     }
 }
 
-void sumBalance(cust *p)
+void sumBalance()
 {
     double sum=0;
-    
+
     for(int i=0; i<numCustomers; i++)
     {
-        p = p+i;
-        
-        sum += p->balance;
-        
+        sum += (ptr+i)->balance;
     }
 
-    printf("Sum of all balances: %lf\n\n\n", sum);
+    printf("\n\n\nSum of all balances: %lf\n\n\n", sum);
 }
 
-void sortCustomers(cust *p)
+void sortCustomers()
 {
     int flag;
-    cust temp; cust *ptr = p;
+    cust temp;
     for(int i=0; i<numCustomers-1; i++)
     {
-        ptr = ptr+i;
         flag=0;
         for(int j=0; j<numCustomers-1-i; j++)
         {
-            if(ptr->balance < (ptr+1)->balance)
+            if((ptr+i)->balance < (ptr+i+1)->balance)
             {
-                temp = *ptr;
-                *ptr = *(ptr+1);
-                *(ptr+1) = temp;
+                temp = *(ptr+i);
+                *(ptr+i) = *(ptr+i+1);
+                *(ptr+i+1) = temp;
                 flag=1;
             }
-            else if(ptr->balance == (ptr+1)->balance)
+            else if((ptr+i)->balance == (ptr+i+1)->balance)
             {
-                if(ptr->accNo < (ptr+1)->accNo)
+                if((ptr+i)->accNo < (ptr+i+1)->accNo)
                 {
-                    temp = *ptr;
-                    *ptr = *(ptr+1);
-                    *(ptr+1) = temp;
+                    temp = *(ptr+i);
+                    *(ptr+i) = *(ptr+i+1);
+                    *(ptr+i+1) = temp;
                     flag=1;
                 }
             }
@@ -107,21 +106,18 @@ void sortCustomers(cust *p)
         if(flag==0) break;
     }
 
-    
+
 
     for(int i=0; i<numCustomers; i++)
     {
-        p = p+i;
-        
-        printf("Name: %s\nAccount No: %s\nMobile no: %s\nBalance: %lf\n\n", p->name, p->accNo,p->mobileNo, p->balance);
-        
+        printf("Name: %s\nAccount No: %s\nMobile no: %s\nBalance: %lf\n\n", (ptr+i)->name, (ptr+i)->accNo, (ptr+i)->mobileNo, (ptr+i)->balance);
     }
 
 }
 
 void main()
 {
-    
+
     printf("Enter number of customers: ");
     scanf("%d", &numCustomers);
 
@@ -129,29 +125,28 @@ void main()
     {
         return;
     }
-    printf("%d", numCustomers);
 
-    cust *ptr;
-    ptr = (cust*)calloc(numCustomers, sizeof(cust));
+    ptr = (cust*)calloc(numCustomers,sizeof(cust));
 
     for(int i=0; i<numCustomers; i++)
     {
-        ptr = ptr+i;
         printf("Enter name: ");
         fflush(stdin);
-        gets(ptr->name);
+        gets((ptr+i)->name);
         printf("Enter account number: ");
-        scanf("%s", ptr->accNo);
+        fflush(stdin);
+        gets((ptr+i)->accNo);
         printf("Enter mobile no: ");
-        scanf("%s", ptr->mobileNo);
+        fflush(stdin);
+        gets((ptr+i)->mobileNo);
         printf("Enter balance: ");
-        scanf("%lf", &ptr->balance);
-
+        scanf("%lf", &(ptr+i)->balance);
+        printf("\n");
     }
 
-    ptr = ptr-(numCustomers-1);
-
-    int option; char acc[10], mbl[11]; double amount;
+    int option;
+    char acc[10], mbl[11];
+    double amount;
     while(1)
     {
         printf("Please select an option- \nChoose 1 to deposit money. \nChoose 2 to withdraw money. \nChoose 3 to sort all customers using their salary. \nChoose 4 to search customers by using their mobileNo. \nChoose 5 to print all the customers. \nChoose 6 to print the sum Of all customer balances. \nChoose 0 to exit.  \nEnter you option: ");
@@ -165,50 +160,50 @@ void main()
 
         switch (option)
         {
-        case 1: 
+        case 1:
         printf("Enter account number: ");
         scanf("%s", acc);
         printf("Enter the balance: ");
         scanf("%lf", &amount);
-        depositMoney(acc, ptr, amount);
+        depositMoney(acc, amount);
 
             break;
 
-        case 2: 
+        case 2:
         printf("Enter account number: ");
         scanf("%s", acc);
         printf("Enter the amount to be withdrawn: ");
         scanf("%lf", &amount);
-        withdrawMoney(acc, ptr, amount);
+        withdrawMoney(acc, amount);
 
         break;
 
         case 3:
-        sortCustomers(ptr);
+        sortCustomers();
 
         break;
 
         case 4:
         printf("Enter mobile number: ");
         scanf("%s", mbl);
-        searchCustomer(mbl, ptr);
+        searchCustomer(mbl);
 
 
         break;
 
-        
+
         case 5:
-        printCustomers(ptr);
-        
+        printCustomers();
+
 
         break;
 
-        
+
         case 6:
-        sumBalance(ptr);
+        sumBalance();
 
         break;
-        
+
         default: printf("Enter correct option\n");
             break;
         }
